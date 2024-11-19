@@ -1,0 +1,64 @@
+/* custom.css */
+
+/* Cor de fundo e texto */
+body {
+  background-color: #f8f9fa; /* Cor de fundo suave */
+}
+
+/* Navbar */
+.navbar {
+  background-color: #4caf50; /* Verde */
+}
+
+.nav-link {
+  color: #fff !important; /* Texto branco para os links */
+}
+
+.nav-link:hover {
+  color: #e0e0e0 !important; /* Cor do texto ao passar o mouse */
+}
+
+/* Botões */
+.btn-primary {
+  background-color: #388e3c; /* Verde mais escuro para o botão de login */
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #66bb6a; /* Verde mais claro ao passar o mouse */
+}
+
+.btn-success {
+  background-color: #4caf50; /* Verde */
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #66bb6a; /* Verde mais claro ao passar o mouse */
+}
+
+/* Alertas */
+.alert-success {
+  background-color: #dff0d8; /* Verde claro para sucesso */
+  border-color: #d6e9c6; /* Verde mais escuro para borda */
+}
+
+.alert-danger {
+  background-color: #f2dede; /* Vermelho claro para erro */
+  border-color: #ebccd1; /* Vermelho mais escuro para borda */
+}
+
+/* Modal */
+.modal-header {
+  background-color: #4caf50; /* Verde */
+  color: #fff; /* Texto branco */
+}
+
+.modal-footer .btn {
+  background-color: #f44336; /* Vermelho para excluir */
+  border: none;
+}
+
+.modal-footer .btn:hover {
+  background-color: #e57373; /* Vermelho mais claro ao passar o mouse */
+}
