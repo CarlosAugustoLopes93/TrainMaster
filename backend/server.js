@@ -2,11 +2,12 @@ require('dotenv').config();  // Carrega as variáveis do arquivo .env
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path'); // Importa o 'path' para manipulação de caminhos
 const userRoutes = require('./routes/userRoutes');
 const trainerRoutes = require('./routes/trainerRoutes');
-const workoutRoutes = require('./routes/workoutRoutes'); // Adicionando a rota de treinos
-const exerciseRoutes = require('./routes/exerciseRoutes'); // Adicionando a rota de exercícios
-const authRoutes = require('./routes/authRouter'); // Corrigindo o nome da rota de autenticação para usar 'authRoutes'
+const workoutRoutes = require('./routes/workoutRoutes');
+const exerciseRoutes = require('./routes/exerciseRoutes');
+const authRoutes = require('./routes/authRouter');
 const pool = require('./db'); // Importa o pool do arquivo db.js
 const app = express();
 
@@ -20,18 +21,29 @@ const PORT = process.env.PORT || 5000;
 // Rotas
 app.use('/api/users', userRoutes);
 app.use('/api/trainers', trainerRoutes);
-app.use('/api/workouts', workoutRoutes); // Usando a rota de treinos
-app.use('/api/exercises', exerciseRoutes); // Usando a rota de exercícios
-app.use('/api/auth', authRoutes); // Usando a nova rota de autenticação para login
+app.use('/api/workouts', workoutRoutes);
+app.use('/api/exercises', exerciseRoutes);
+app.use('/api/auth', authRoutes);
 
-// Rota básica de teste
-app.get('/', (req, res) => {
-  res.send('Servidor Express rodando!');
-});
+// Servir os arquivos estáticos do React
+if (process.env.NODE_ENV === 'production') {
+  // Serve a pasta 'build' para produção
+  app.use(express.static(path.join(__dirname, 'build')));
+
+  // Rota para a página principal
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+} else {
+  // No ambiente de desenvolvimento, serve o React na porta 3000
+  app.get('/', (req, res) => {
+    res.send('Servidor Express rodando!');
+  });
+}
 
 // Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
 
-module.exports = app; // Agora exportando apenas o app
+module.exports = app; // Exporta o app
