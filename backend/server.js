@@ -28,12 +28,12 @@ app.use('/api/auth', authRoutes);
 // Servir os arquivos estáticos do React
 if (process.env.NODE_ENV === 'production') {
   // Serve a pasta 'build' para produção
-  app.use(express.static(path.join(__dirname, 'build')));
+  app.use(express.static(path.join(__dirname, 'frontend/build'))); // Corrige o caminho
 
-  // Rota para a página principal
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html')); // Corrige o caminho
   });
+  
 } else {
   // No ambiente de desenvolvimento, serve o React na porta 3000
   app.get('/', (req, res) => {
