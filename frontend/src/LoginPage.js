@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importando useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // Inicializando o useNavigate
+  const navigate = useNavigate();
 
-  // Definir a URL base da API
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Para desenvolvimento local
+  // Definir a URL base da API, usando a variável de ambiente REACT_APP_API_URL
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Usando localhost para desenvolvimento local
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -21,25 +21,25 @@ const LoginPage = () => {
     console.log('Credenciais enviadas:', credentials); // Log das credenciais enviadas
 
     try {
-      // Certifique-se de que a URL esteja corretamente formatada
-      const response = await axios.post(`${apiUrl}/api/auth/login`, credentials); // Usando apiUrl
+      // Enviar a requisição POST para a API de login
+      const response = await axios.post(`${apiUrl}/api/auth/login`, credentials);
 
-      console.log('Resposta da API:', response.data); // Log da resposta recebida
+      console.log('Resposta da API:', response.data);
 
       alert(response.data.message); // Exibe mensagem de sucesso
       localStorage.setItem('token', response.data.token); // Armazenando o token no localStorage
 
       // Verificando o tipo de usuário (user_type) e redirecionando
       if (response.data.user_type === 'treinador') {
-        navigate('/treinador-dashboard'); // Usando navigate para redirecionar
+        navigate('/treinador-dashboard');
       } else if (response.data.user_type === 'aluno') {
-        navigate('/aluno-dashboard'); // Usando navigate para redirecionar
+        navigate('/aluno-dashboard');
       } else {
         alert('Tipo de usuário inválido');
       }
     } catch (error) {
-      console.error('Erro ao fazer login:', error); // Log do erro completo
-      console.error('Detalhes do erro:', error.response?.data); // Detalhes da resposta da API, se disponíveis
+      console.error('Erro ao fazer login:', error);
+      console.error('Detalhes do erro:', error.response?.data);
       setErrorMessage(error.response?.data?.message || 'Erro ao fazer login');
     }
   };
