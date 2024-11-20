@@ -8,6 +8,9 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate(); // Inicializando o useNavigate
 
+  // Definir a URL base da API
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Para desenvolvimento local
+
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
@@ -18,7 +21,7 @@ const LoginPage = () => {
     console.log('Credenciais enviadas:', credentials); // Log das credenciais enviadas
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
+      const response = await axios.post(`${apiUrl}/api/auth/login`, credentials); // Usando apiUrl
 
       console.log('Resposta da API:', response.data); // Log da resposta recebida
 

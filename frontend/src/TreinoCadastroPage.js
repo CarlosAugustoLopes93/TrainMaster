@@ -12,9 +12,12 @@ const TreinoCadastroPage = () => {
     const [feedback, setFeedback] = useState({ type: '', message: '' });
     const navigate = useNavigate();
 
+    // Definir a URL base da API
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Para desenvolvimento local
+
     useEffect(() => {
         // Carregar exercícios
-        axios.get('http://localhost:5000/api/exercises')
+        axios.get(`${apiUrl}/api/exercises`)
             .then(response => {
                 setAvailableExercises(response.data);
             })
@@ -23,7 +26,7 @@ const TreinoCadastroPage = () => {
             });
 
         // Carregar treinadores
-        axios.get('http://localhost:5000/api/trainers')
+        axios.get(`${apiUrl}/api/trainers`)
             .then(response => {
                 setAvailableTrainers(response.data);
             })
@@ -32,7 +35,7 @@ const TreinoCadastroPage = () => {
             });
 
         // Carregar alunos (com filtro no servidor ou local)
-        axios.get('http://localhost:5000/api/users')
+        axios.get(`${apiUrl}/api/users`)
             .then(response => {
                 const filteredStudents = response.data.filter(user => user.user_type === 'aluno');
                 setAvailableStudents(filteredStudents);
@@ -74,7 +77,7 @@ const TreinoCadastroPage = () => {
         };
     
         try {
-            const response = await fetch('http://localhost:5000/api/workouts', {
+            const response = await fetch(`${apiUrl}/api/workouts`, {  // Usando apiUrl
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

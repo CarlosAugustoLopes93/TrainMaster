@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Alert } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
 
 const TreinadorCadastroPage = () => {
   const [trainerData, setTrainerData] = useState({
@@ -17,14 +18,18 @@ const TreinadorCadastroPage = () => {
   const [feedback, setFeedback] = useState({ type: '', message: '' });
   const navigate = useNavigate();
 
+  // Definir a URL base da API
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Para desenvolvimento local
+
   const handleChange = (e) => {
     setTrainerData({ ...trainerData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await fetch('http://localhost:5000/api/trainers', {
+      const response = await fetch(`${apiUrl}/api/trainers`, {  // Usando apiUrl
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

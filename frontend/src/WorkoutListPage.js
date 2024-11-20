@@ -29,7 +29,7 @@ const WorkoutListPage = () => {
 
       try {
         console.log('Fazendo requisição para treinos...');
-        const response = await axios.get(`${apiUrl}/api/workouts/${userId}`);
+        const response = await axios.get(`${apiUrl}/api/workouts/${userId}`); // Usando apiUrl
         console.log('Resposta recebida dos treinos:', response.data);
 
         // Verifique se a resposta contém treinos
@@ -41,7 +41,7 @@ const WorkoutListPage = () => {
             response.data.map(async (workout) => {
               try {
                 // Realizando uma requisição para obter o nome do treinador
-                const trainerResponse = await axios.get(`${apiUrl}/api/trainers/${workout.trainer_id}`);
+                const trainerResponse = await axios.get(`${apiUrl}/api/trainers/${workout.trainer_id}`); // Usando apiUrl
                 const trainerName = trainerResponse.data.name;  // Ajuste o campo conforme o formato da resposta da API
                 return {
                   ...workout,
