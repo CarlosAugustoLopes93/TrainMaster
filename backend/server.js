@@ -9,6 +9,7 @@ const workoutRoutes = require('./routes/workoutRoutes');
 const exerciseRoutes = require('./routes/exerciseRoutes');
 const authRoutes = require('./routes/authRouter');
 const pool = require('./db'); // Importa o pool do arquivo db.js
+
 const app = express();
 
 // Middleware
@@ -25,13 +26,14 @@ app.use('/api/workouts', workoutRoutes);
 app.use('/api/exercises', exerciseRoutes);
 app.use('/api/auth', authRoutes);
 
-// Servir os arquivos estáticos do React
+// Serve os arquivos estáticos do React
 if (process.env.NODE_ENV === 'production') {
   // Serve a pasta 'build' para produção
-  app.use(express.static(path.join(__dirname, 'frontend/build'))); // Corrige o caminho para um nível abaixo
+  app.use(express.static(path.join(__dirname, 'frontend', 'build'))); // Corrige o caminho para um nível abaixo
 
+  // Roteamento para todas as outras rotas, garantindo que o React seja servido corretamente
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html')); // Corrige o caminho para um nível abaixo
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html')); // Corrige o caminho para um nível abaixo
   });
 } else {
   // No ambiente de desenvolvimento, serve o React na porta 3000
@@ -39,6 +41,12 @@ if (process.env.NODE_ENV === 'production') {
     res.send('Servidor Express rodando!');
   });
 }
+
+// Tratamento de erros para capturar falhas inesperadas
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Algo deu errado!');
+});
 
 // Iniciar o servidor
 app.listen(PORT, () => {
