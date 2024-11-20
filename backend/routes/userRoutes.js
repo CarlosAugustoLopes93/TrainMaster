@@ -14,28 +14,34 @@ const validateUserFields = (data) => {
 // Criar um novo usuário
 router.post('/', async (req, res) => {
     const { name, email, password, peso, altura, telefone, experiencia, user_type } = req.body;
-    
-    console.log('Requisição POST recebida para criar usuário:', req.body);  // Log dos dados recebidos
+
+    // Logando os dados recebidos na requisição
+    console.log('Requisição POST recebida para criar usuário:', req.body);
 
     const error = validateUserFields(req.body);
-    if (error) return res.status(400).json({ error });
+    if (error) {
+        console.log('Erro na validação dos campos:', error);  // Log de erro de validação
+        return res.status(400).json({ error });
+    }
 
-    // Verificando tipos de dados
+    // Verificando tipos de dados para peso e altura
     if (isNaN(peso) || isNaN(altura)) {
+        console.log('Erro: Peso ou altura não são números válidos. Peso:', peso, 'Altura:', altura);
         return res.status(400).json({ error: 'Peso e altura devem ser números válidos' });
     }
 
     try {
-        console.log('Inserindo usuário no banco...');  // Log antes da inserção no banco
+        console.log('Tentando inserir o usuário no banco...');  // Log antes da inserção no banco
         const result = await pool.query(
             'INSERT INTO users (name, email, password, peso, altura, telefone, experiencia, user_type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
             [name, email, password, peso, altura, telefone, experiencia, user_type]
         );
-        console.log('Usuário criado:', result.rows[0]);  // Log após a criação do usuário no banco
+        console.log('Usuário criado no banco de dados:', result.rows[0]);  // Log após a inserção do usuário
         const user = result.rows[0];
         res.status(201).json(user);
     } catch (error) {
-        console.error('Erro ao criar usuário no banco:', error);  // Log de erro no banco
+        // Log de erro ao tentar inserir no banco
+        console.error('Erro ao criar usuário no banco:', error);  
         res.status(500).json({ error: 'Erro ao criar usuário' });
     }
 });
