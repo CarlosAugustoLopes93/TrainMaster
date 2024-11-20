@@ -2,8 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "node server.js",
-    "build": "echo 'No build necessary for backend'"
+    "build": "cd ../frontend && npm install && npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
