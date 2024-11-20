@@ -10,6 +10,9 @@ const WorkoutListPage = () => {
   const [error, setError] = useState('');
   const { id } = useParams(); // Pegando o 'id' da URL (que é o user_id)
 
+  // Definir a URL base da API, considerando o ambiente de produção ou desenvolvimento
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Para desenvolvimento local
+
   useEffect(() => {
     const fetchWorkouts = async () => {
       if (!id) {
@@ -26,7 +29,7 @@ const WorkoutListPage = () => {
 
       try {
         console.log('Fazendo requisição para treinos...');
-        const response = await axios.get(`http://localhost:5000/api/workouts/${userId}`);
+        const response = await axios.get(`${apiUrl}/api/workouts/${userId}`);
         console.log('Resposta recebida dos treinos:', response.data);
 
         // Verifique se a resposta contém treinos
@@ -38,7 +41,7 @@ const WorkoutListPage = () => {
             response.data.map(async (workout) => {
               try {
                 // Realizando uma requisição para obter o nome do treinador
-                const trainerResponse = await axios.get(`http://localhost:5000/api/trainers/${workout.trainer_id}`);
+                const trainerResponse = await axios.get(`${apiUrl}/api/trainers/${workout.trainer_id}`);
                 const trainerName = trainerResponse.data.name;  // Ajuste o campo conforme o formato da resposta da API
                 return {
                   ...workout,

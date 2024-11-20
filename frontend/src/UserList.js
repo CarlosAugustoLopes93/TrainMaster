@@ -23,10 +23,13 @@ const UserList = () => {
     user_type: ''
   });
 
+  // Definir a URL base da API, considerando o ambiente de produção ou desenvolvimento
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Para desenvolvimento local
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users');
+        const response = await axios.get(`${apiUrl}/api/users`);  // Usando apiUrl
         setUsers(response.data);
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
@@ -43,7 +46,7 @@ const UserList = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userToDelete}`);
+      await axios.delete(`${apiUrl}/api/users/${userToDelete}`);  // Usando apiUrl
       setUsers(users.filter(user => user.id !== userToDelete));
       setFeedback({ type: 'success', message: 'Usuário excluído com sucesso!' });
     } catch (error) {
@@ -84,7 +87,7 @@ const UserList = () => {
 
   const confirmEdit = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/users/${userToEdit}`, editFormData);
+      await axios.put(`${apiUrl}/api/users/${userToEdit}`, editFormData);  // Usando apiUrl
       setUsers(users.map(user => user.id === userToEdit ? { ...user, ...editFormData } : user));
       setFeedback({ type: 'success', message: 'Usuário editado com sucesso!' });
     } catch (error) {

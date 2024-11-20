@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import apiUrl from './api';
 const AlunoCadastroPage = () => {
   const [formData, setFormData] = useState({
     nome: '',
@@ -46,12 +46,13 @@ const AlunoCadastroPage = () => {
 
     try {
       // Enviando os dados para o back-end (API)
-      const response = await fetch('http://localhost:5000/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSend),
+      
+const response = await fetch(`${apiUrl}/api/users`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(dataToSend),
       });
 
       const result = await response.json();
