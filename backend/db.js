@@ -8,6 +8,9 @@ const pool = new Pool({
   database: process.env.DB_NAME,   // Variável de ambiente para o nome do banco de dados
   password: process.env.DB_PASSWORD, // Variável de ambiente para a senha do banco
   port: process.env.DB_PORT,       // Variável de ambiente para a porta
+  ssl: {
+    rejectUnauthorized: false, // Necessário para conexões SSL no Render
+  }
 });
 
 // Conectando ao banco de dados e tratando erros
