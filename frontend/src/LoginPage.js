@@ -21,6 +21,7 @@ const LoginPage = () => {
     console.log('Credenciais enviadas:', credentials); // Log das credenciais enviadas
 
     try {
+      // Certifique-se de que a URL esteja corretamente formatada
       const response = await axios.post(`${apiUrl}/api/auth/login`, credentials); // Usando apiUrl
 
       console.log('Resposta da API:', response.data); // Log da resposta recebida
